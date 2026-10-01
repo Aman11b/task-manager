@@ -5,10 +5,13 @@ import { errorHandler } from "./middleware/error.middleware.js";
 import { createTaskRoutes } from "./routes/task.routes.js";
 import { createTaskService } from "./services/task.service.js";
 import { createPrismaTaskRepository } from "./repositories/prisma-task.repository.js"
+import cors from "cors";
 
 const app=express();
 
+
 app.use(express.json())
+app.use(cors({ origin: "http://localhost:5173" }));
 
 // const taskRepository=createInMemoryTaskRepository();
 const taskRepository=createPrismaTaskRepository();
