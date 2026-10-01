@@ -1,4 +1,5 @@
-import type { Task,TaskStatus,TaskPriority } from "../types/task.types.js";
+import { CreateTaskDto, UpdateTaskDto } from "../schemas/task.schema.js";
+import type { Task, TaskPriority, TaskStatus } from "../types/task.types.js";
 
 export type CreateTaskInput={
     title:string;
@@ -18,9 +19,9 @@ export type UpdateTaskInput=Partial<{
 }>
 
 export interface TaskRepository {
-    create(input: CreateTaskInput): Promise<Task>;
+    create(input: CreateTaskDto): Promise<Task>;
     findAll(): Promise<Task[]>;
     findById(id: string): Promise<Task | null>;
-    update(id: string, input: UpdateTaskInput): Promise<Task | null>;
+    update(id: string, input: UpdateTaskDto): Promise<Task | null>;
     delete(id: string): Promise<boolean>;
   }

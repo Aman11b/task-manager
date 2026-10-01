@@ -1,19 +1,20 @@
 import { randomUUID } from "node:crypto";
+import { CreateTaskDto, UpdateTaskDto } from "../schemas/task.schema.js";
 import { Task } from "../types/task.types.js";
-import { CreateTaskInput, TaskRepository, UpdateTaskInput } from "./task.repository.js";
+import { TaskRepository } from "./task.repository.js";
 
 export function createInMemoryTaskRepository():TaskRepository{
     const tasks=new Map<string,Task>();
 
-    async function create(input:CreateTaskInput):Promise<Task>{
+    async function create(input:CreateTaskDto):Promise<Task>{
         const now=new Date().toISOString();
         const task:Task={
             id:randomUUID(),
             title:input.title,
-            description:input.description,
+            description:input.description ?? null,
             status:input.status,
             priority:input.priority,
-            dueDate:input.dueDate,
+            dueDate:input.dueDate ?? null,
             createdAt:now,
             updatedAt:now
         }
@@ -29,7 +30,7 @@ export function createInMemoryTaskRepository():TaskRepository{
         return tasks.get(id)?? null
     }
 
-    async function update(id:string,input:UpdateTaskInput):Promise<Task|null>{
+    async function update(id:string,input:UpdateTaskDto):Promise<Task|null>{
         const existing=tasks.get(id)
         if(!existing){
             return null

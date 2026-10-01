@@ -4,6 +4,7 @@ import { createInMemoryTaskRepository } from "./repositories/in-memory-task.repo
 import { createTaskService } from "./services/task.service.js";
 import { createTaskController } from "./controllers/task.controller.js";
 import { createTaskRoutes } from "./routes/task.routes.js";
+import { errorHandler } from "./middleware/error.middleware.js";
 
 const app=express();
 
@@ -35,5 +36,7 @@ app.use((_req:Request,res:Response,_next:NextFunction)=>{
         },
     });
 });
+
+app.use(errorHandler)
 
 export default app
