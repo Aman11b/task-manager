@@ -43,6 +43,7 @@ export function errorHandler(
         success:false,
         error:{
             code:"INTERNAL_SERVER_ERROR",
+            message: "Something went wrong.",
             details:[],
         },
     });
