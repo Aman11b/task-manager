@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { fetchTasks } from "../../api/tasks.js";
-import type { Task } from "../../types/task.types.js";
+import { fetchTasks, updateTask, deleteTask } from "../../api/tasks.js";
+import type { Task, TaskStatus, TaskPriority } from "../../types/task.types.js";
 
 type TaskListProps = {
   refreshKey: number;
+  onChanged: () => void;
 };
 
-function TaskList({ refreshKey }: TaskListProps) {
+const STATUS_OPTIONS: TaskStatus[] = ["TODO", "IN_PROGRESS", "COMPLETED"];
+const PRIORITY_OPTIONS: TaskPriority[] = ["LOW", "MEDIUM", "HIGH"];
+
+function TaskList({ refreshKey, onChanged }: TaskListProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,6 +24,37 @@ function TaskList({ refreshKey }: TaskListProps) {
       })
       .finally(() => setLoading(false));
   }, [refreshKey]);
+
+  async function handleStatusChange(id: string, status: TaskStatus): Promise<void> {
+    try {
+      await updateTask(id, { status });
+      onChanged();
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to update status.");
+    }
+  }
+
+  async function handlePriorityChange(id: string, priority: TaskPriority): Promise<void> {
+    try {
+      await updateTask(id, { priority });
+      onChanged();
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to update priority.");
+    }
+  }
+
+  async function handleDelete(id: string, title: string): Promise<void> {
+    const confirmed = window.confirm(`Delete "${title}"? This cannot be undone.`);
+    if (!confirmed) {
+      return;
+    }
+    try {
+      await deleteTask(id);
+      onChanged();
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to delete task.");
+    }
+  }
 
   if (loading) {
     return <p>Loading tasks...</p>;
@@ -38,9 +73,40 @@ function TaskList({ refreshKey }: TaskListProps) {
       {tasks.map((task) => (
         <li key={task.id} className="task-card">
           <div className="task-card-title">{task.title}</div>
-          <div>
-            <span className={`badge badge-${task.status}`}>{task.status}</span>
-            <span className={`badge badge-${task.priority}`}>{task.priority}</span>
+          <div className="task-card-controls">
+            <select
+              value={task.status}
+              onChange={(event) =>
+                handleStatusChange(task.id, event.target.value as TaskStatus)
+              }
+              className={`badge badge-${task.status}`}
+            >
+              {STATUS_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            <select
+              value={task.priority}
+              onChange={(event) =>
+                handlePriorityChange(task.id, event.target.value as TaskPriority)
+              }
+              className={`badge badge-${task.priority}`}
+            >
+              {PRIORITY_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              className="task-delete-btn"
+              onClick={() => handleDelete(task.id, task.title)}
+            >
+              Delete
+            </button>
           </div>
         </li>
       ))}

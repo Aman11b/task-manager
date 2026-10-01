@@ -108,3 +108,30 @@ body {
 .badge-LOW { background: #f3f4f6; color: #4b5563; }
 .badge-MEDIUM { background: #fef3c7; color: #92400e; }
 .badge-HIGH { background: #fee2e2; color: #b91c1c; }
+
+.task-card-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-card-controls select {
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.task-delete-btn {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--color-border);
+  color: var(--color-danger);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.task-delete-btn:hover {
+  background: #fef2f2;
+}

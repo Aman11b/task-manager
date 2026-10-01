@@ -5,15 +5,15 @@ import CreateTaskForm from "./features/tasks/CreateTaskForm.js";
 function App() {
   const [refreshKey, setRefreshKey] = useState(0);
 
-  function handleTaskCreated(): void {
+  function handleRefresh(): void {
     setRefreshKey((key) => key + 1);
   }
 
   return (
     <div className="app">
       <h1 className="app-title">Task Manager</h1>
-      <CreateTaskForm onCreated={handleTaskCreated} />
-      <TaskList refreshKey={refreshKey} />
+      <CreateTaskForm onCreated={handleRefresh} />
+      <TaskList refreshKey={refreshKey} onChanged={handleRefresh} />
     </div>
   );
 }
