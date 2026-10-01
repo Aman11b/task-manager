@@ -1,6 +1,110 @@
+:root {
+  --color-bg: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-border: #e0e0e0;
+  --color-text: #1a1a1a;
+  --color-text-muted: #6b7280;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-danger: #dc2626;
+  --radius: 8px;
+}
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
-  background-color: #f5f5f5;
-  color: #1a1a1a;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
+
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.app-title {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.task-form input {
+  font: inherit;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.task-form button {
+  align-self: flex-start;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.task-form button:hover {
+  background: var(--color-primary-hover);
+}
+
+.task-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.task-form-error {
+  color: var(--color-danger);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.task-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.task-card-title {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-right: 0.4rem;
+}
+
+.badge-TODO { background: #e5e7eb; color: #374151; }
+.badge-IN_PROGRESS { background: #dbeafe; color: #1d4ed8; }
+.badge-COMPLETED { background: #dcfce7; color: #15803d; }
+
+.badge-LOW { background: #f3f4f6; color: #4b5563; }
+.badge-MEDIUM { background: #fef3c7; color: #92400e; }
+.badge-HIGH { background: #fee2e2; color: #b91c1c; }
