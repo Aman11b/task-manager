@@ -24,3 +24,4 @@ npm-debug.log*
 
 # Prisma (will matter later, harmless now)
 *.db
+/src/generated/prisma
